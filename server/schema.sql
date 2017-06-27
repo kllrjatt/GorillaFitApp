@@ -327,7 +327,7 @@ INSERT INTO `food` (`userid`,`food_name`,`brand_name`,`calories`,`total_fat`,`sa
 INSERT INTO `food` (`userid`,`food_name`,`brand_name`,`calories`,`total_fat`,`saturated_fat`,`cholesterol`,`sodium`,`carbohydrates`,`fiber`,`sugars`,`proteins`,`potassium`,`photo`,`meal_time`) VALUES
 ('10','vanilla latte','234','3423','43','23432','324','234','234','234','324','342','234','234','breakfast');
 INSERT INTO `food` (`userid`,`food_name`,`brand_name`,`calories`,`total_fat`,`saturated_fat`,`cholesterol`,`sodium`,`carbohydrates`,`fiber`,`sugars`,`proteins`,`potassium`,`photo`,`meal_time`) VALUES
-('10','random food','234','234','342','3424','53','2','23','2342','23','23','234','sql sucks','snacks');
+('10','random food','234','234','342','3424','53','2','23','2342','23','23','234','sql sucks',' snacks');
 INSERT INTO `food` (`userid`,`food_name`,`brand_name`,`calories`,`total_fat`,`saturated_fat`,`cholesterol`,`sodium`,`carbohydrates`,`fiber`,`sugars`,`proteins`,`potassium`,`photo`,`meal_time`) VALUES 
 ('10','gummy bears','234','23','43','32','3242','23','32','342','2342','234','423','23','snacks');
 
