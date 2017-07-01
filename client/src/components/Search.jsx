@@ -17,17 +17,17 @@ class Search extends React.Component {
       meal: 'snack'
     },
       this.clearFoods = this.clearFoods.bind(this);
-    this.spliceFood = this.spliceFood.bind(this)
+    this.spliceFood = this.spliceFood.bind(this);
   }
 
   handleChange(e) {
     //console.log('handle change is firing')
-    this.setState({ userFoodItemInput: e.target.value })
+    this.setState({ userFoodItemInput: e.target.value });
     //console.log(this.state.userFoodItemInput)
   }
 
   clearFoods() {
-    this.setState({ userFoodItemInput: [] })
+    this.setState({ userFoodItemInput: [] });
   }
 
   spliceFood(index) {
@@ -38,19 +38,19 @@ class Search extends React.Component {
   }
   dropdownChange(e) {
     //console.log('this is the val', e.target.value)
-    this.setState({ meal: e.target.value })
+    this.setState({ meal: e.target.value });
   }
 
   handleClick(e) {
     e.preventDefault();
     this.setState({
       userFoodItemInput: ''
-    })
+    });
 
     axios.get('/test', {
       matchingFoodItems: [],
       meal: 'snack'
-    })
+    });
 
     this.clearFoods = this.clearFoods.bind(this);
   }
@@ -69,14 +69,14 @@ class Search extends React.Component {
     this.setState({ meal: e.target.value });
   }
 
-  postFood(foodObject){
-    console.log('post food is being called! ')
-    if(this.props.username){
+  postFood(foodObject) {
+    console.log('post food is being called! ');
+    if (this.props.username) {
       axios.post('/foods', {
         food: foodObject,
         username: this.props.username,
         date: Date.now()
-      })
+      });
     }
   }
 
@@ -87,15 +87,19 @@ class Search extends React.Component {
         userFood: this.state.userFoodItemInput
       }
     })
-    .then((res) => {
-      var tempMatchingFoods = this.state.matchingFoodItems.slice();
-      console.log('here is res data', res.data)
-      tempMatchingFoods.push(res.data);
-      this.setState({ matchingFoodItems: res.data });
-    })
-    .then(() => {
-      this.setState({
-        userFoodItemInput: ''
+      .then((res) => {
+        var tempMatchingFoods = this.state.matchingFoodItems.slice();
+        console.log('here is res data', res.data);
+        tempMatchingFoods.push(res.data);
+        this.setState({ matchingFoodItems: res.data });
+      })
+      .then(() => {
+        this.setState({
+          userFoodItemInput: ''
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
@@ -105,21 +109,21 @@ class Search extends React.Component {
         <form>
           Input Your Food:
 
-        <input id="input" type="text" name="food_item" value={this.state.userFoodItemInput} onChange={this.handleChange.bind(this)} />
-        <input id="submit" type="submit" value="Submit" onClick={this.handleClick.bind(this)} />
-        <br />
+          <input id="input" type="text" name="food_item" value={this.state.userFoodItemInput} onChange={this.handleChange.bind(this)} />
+          <input id="submit" type="submit" value="Submit" onClick={this.handleClick.bind(this)} />
+          <br />
 
-        <select onChange={this.dropdownChange.bind(this)}>
-          <option value='snack'>Snack</option>
-          <option value='breakfast'>Breakfast</option>
-          <option value='lunch'>Lunch</option>
-          <option value='dinner'>Dinner</option>
-        </select>
+          <select onChange={this.dropdownChange.bind(this)}>
+            <option value='snack'>Snack</option>
+            <option value='breakfast'>Breakfast</option>
+            <option value='lunch'>Lunch</option>
+            <option value='dinner'>Dinner</option>
+          </select>
         </form>
 
         {this.state.matchingFoodItems.map((item, i) => <MatchingItem meal={this.state.meal} addFood={this.props.addFood} clearMatchList={this.clearFoods} item={item} key={i} state={this.state} />)}
-    <br />
-      </div >
+        <br />
+      </div>
 
     );
   }
@@ -127,5 +131,3 @@ class Search extends React.Component {
 
 
 export default Search;
-
-
