@@ -6,7 +6,12 @@ import Search from './components/Search.jsx';
 import Items from './components/Items.jsx';
 import Calories from './components/Calories.jsx';
 import Nutrients from './components/Nutrients.jsx';
+
+import SignUp from './components/SignUp.jsx';
 import update from 'immutability-helper';
+import BackButton from './components/backButton.jsx';
+import ForwardButton from './components/forwardButton.jsx';
+import axios from 'axios';
 
 /*Exercise Components*/
 import SearchExercise from './components/SearchExercise.jsx';
@@ -18,6 +23,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      date: Date.now(),
+      username: null,
       items: {
         breakfast: [],
         lunch: [],
@@ -40,12 +47,30 @@ class App extends React.Component {
         'fencing'
       ],
       calorieOutput: 560
-
     };
+
     this.addFood = this.addFood.bind(this);
   }
 
-  addFood(meal, foodToAdd, caloriesToAdd, fatToAdd, carbsToAdd, proteinToAdd) {
+//   addFood (i, meal, foodToAdd, caloriesToAdd, fatToAdd, carbsToAdd, proteinToAdd) {
+// =======
+//       fat: 0,
+//       carbs: 0,
+//       protein: 0,
+//       //Below are dummy data for exercises and calorie output
+//       exercises: [
+//         'rowing',
+//         'fencing'
+//       ],
+//       calorieOutput: 560
+
+
+//     };
+//     this.addFood = this.addFood.bind(this);
+//   }
+
+  addFood(i, meal, foodToAdd, caloriesToAdd, fatToAdd, carbsToAdd, proteinToAdd) {
+
     var tempItems = this.state.items;
     for (var key in tempItems) {
       if (key === meal) {
@@ -58,6 +83,8 @@ class App extends React.Component {
     var newProtein = this.state.protein + Math.floor(proteinToAdd);
     this.setState({
       items: tempItems,
+
+
       totalCalories: newTotalCalories,
       fat: newFat,
       carbs: newCarbs,
@@ -66,7 +93,7 @@ class App extends React.Component {
     console.log(this.state.items);
   }
 
-  /* handlefunction for adding exercise */
+
   addExercise(result) {
     var tempArray = this.state.exercises.slice();
     tempArray.push(result.exercises[0].name);
@@ -77,35 +104,72 @@ class App extends React.Component {
     });
   }
 
-  // componentDidMount() {
-  //   $.ajax({
-  //     url: '/items',
-  //     method: 'GET',
-  //     success: (data) => {
-  //       //console.log(data.foods)
-  //       this.setState({
-  //         items: data.foods
-  //       })
-  //     },
-  //     error: (err) => {
-  //       console.log('err', err);
-  //     }
-  //   });
-  // }
+  setUsername(username) {
+    this.setState({'username': username});
+  }
+
+  onBack(e) { 
+    e.preventDefault();
+    let oneDayBack = new Date().setDate(new Date(this.state.date).getDate() - 1);
+    this.setState({date: oneDayBack});
+    axios.get('/userfoods', {
+      params: {
+        username: JSON.stringify(this.state.username),
+        date: JSON.stringify(oneDayBack)
+      }
+    })
+    .then((res) => {
+      //do something with the data
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+
+  onForward(e) {
+    console.log('this date ', this.state.date);
+    e.preventDefault();
+    let oneDayForward = new Date().setDate(new Date(this.state.date).getDate() + 1);
+    this.setState({date: oneDayForward});
+    axios.get('/userfoods', {
+      params: {
+        username: JSON.stringify(this.state.username),
+        date: JSON.stringify(oneDayForward)
+      }
+    })
+    .then((res) => {
+      //do something with the data
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
 
   render() {
-    return (<div>
-      <Search addFood={this.addFood} />
+    return (
+    <div>
+      {this.state.username ? <ForwardButton onForward={this.onForward.bind(this)}/> : ''}
+      {this.state.username ? <BackButton onBack={this.onBack.bind(this)}/> : ''}
+      {this.state.username ? '' : <SignUp setUsername={this.setUsername.bind(this)}/>}
+      <Search addFood={this.addFood} username={this.state.username}/>
       <Items breakfast={this.state.items.breakfast} lunch={this.state.items.lunch} dinner={this.state.items.dinner} snack={this.state.items.snack} />
       <Calories totalCalories={this.state.totalCalories} />
       <Nutrients fat={this.state.fat} carbs={this.state.carbs} protein={this.state.protein} />
-      <hr />
-      <SearchExercise addExercise={this.addExercise.bind(this)} />
-      <Exercises exercises={this.state.exercises} />
-      <CalorieOutput calorieOutput={this.state.calorieOutput} />
+      <hr/>
+      <SearchExercise addExercise={this.addExercise.bind(this)}/>
+      <Exercises exercises={this.state.exercises}/>
+      <CalorieOutput calorieOutput={this.state.calorieOutput}/>
     </div >);
   }
 }
 
+
 ReactDOM.render(<App />, document.getElementById('app'));
+
+
+
+//this index will have 3 components 
+//search 
+//items
+//calories
 
