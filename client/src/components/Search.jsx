@@ -15,8 +15,8 @@ class Search extends React.Component {
       //Such as 'apple - 100 calories', 'cheese - 230 calories'
 
       meal: 'snack'
-    }
-    this.clearFoods = this.clearFoods.bind(this);
+    },
+      this.clearFoods = this.clearFoods.bind(this);
     this.spliceFood = this.spliceFood.bind(this)
   }
 
@@ -50,7 +50,8 @@ class Search extends React.Component {
     axios.get('/test', {
       matchingFoodItems: [],
       meal: 'snack'
-    };
+    })
+
     this.clearFoods = this.clearFoods.bind(this);
   }
 
@@ -68,8 +69,9 @@ class Search extends React.Component {
     this.setState({ meal: e.target.value });
   }
 
-  postFood(foodObject) {
-    if (this.props.username) {
+  postFood(foodObject){
+    console.log('post food is being called! ')
+    if(this.props.username){
       axios.post('/foods', {
         food: foodObject,
         username: this.props.username,
@@ -80,24 +82,20 @@ class Search extends React.Component {
 
   handleClick(e) {
     e.preventDefault();
-    axios.get('/foods', {
+    axios.get('/test', {
       params: {
         userFood: this.state.userFoodItemInput
       }
     })
-      .then((res) => {
-        var tempMatchingFoods = this.state.matchingFoodItems.slice();
-        tempMatchingFoods.push(res.data);
-        this.setState({ matchingFoodItems: tempMatchingFoods });
-        this.postFood(res.data)
-      })
-      .then(() => {
-        this.setState({
-          userFoodItemInput: ''
-        });
-      })
-      .catch((err) => {
-        console.log(err);
+    .then((res) => {
+      var tempMatchingFoods = this.state.matchingFoodItems.slice();
+      console.log('here is res data', res.data)
+      tempMatchingFoods.push(res.data);
+      this.setState({ matchingFoodItems: res.data });
+    })
+    .then(() => {
+      this.setState({
+        userFoodItemInput: ''
       });
   }
 
@@ -107,24 +105,21 @@ class Search extends React.Component {
         <form>
           Input Your Food:
 
-          <input id="input" type="text" name="food_item" value={this.state.userFoodItemInput} onChange={this.handleChange.bind(this)} />
-          <input id="submit" type="submit" value="Submit" onClick={this.handleClick.bind(this)} />
-          <br />
-
-          <input id="input" type="text" name="food_item" value={this.state.userFoodItemInput} onChange={this.handleChange.bind(this)} />
-          <input id="submit" type="submit" value="Submit" onClick={this.handleClick.bind(this)} />
-          <br />
-
-          <select onChange={this.dropdownChange.bind(this)}>
-            <option value='snack'>Snack</option>
-            <option value='breakfast'>Breakfast</option>
-            <option value='lunch'>Lunch</option>
-            <option value='dinner'>Dinner</option>
-          </select>
-        </form>
-        {this.state.matchingFoodItems.map((item, i) => <MatchingItem meal={this.state.meal} addFood={this.props.addFood} clearMatchList={this.clearFoods} item={item} key={i} />)}
+        <input id="input" type="text" name="food_item" value={this.state.userFoodItemInput} onChange={this.handleChange.bind(this)} />
+        <input id="submit" type="submit" value="Submit" onClick={this.handleClick.bind(this)} />
         <br />
-      </div>
+
+        <select onChange={this.dropdownChange.bind(this)}>
+          <option value='snack'>Snack</option>
+          <option value='breakfast'>Breakfast</option>
+          <option value='lunch'>Lunch</option>
+          <option value='dinner'>Dinner</option>
+        </select>
+        </form>
+
+        {this.state.matchingFoodItems.map((item, i) => <MatchingItem meal={this.state.meal} addFood={this.props.addFood} clearMatchList={this.clearFoods} item={item} key={i} state={this.state} />)}
+    <br />
+      </div >
 
     );
   }

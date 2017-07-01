@@ -9,9 +9,9 @@ class MatchingItem extends React.Component {
     this.state = {
       listClear: false,
       foodName: null
-    };
-    this.addFood = this.addFood.bind(this);
-    //console.log(this)
+    }
+    this.addFood = this.addFood.bind(this)
+
   }
 
 
@@ -29,6 +29,20 @@ class MatchingItem extends React.Component {
         addedFood: this.props.item.food_name || this.props.item.brand_name_item_name
       }
     })
+      .then((res) => {
+        this.props.addFood(this.props.iterator, this.props.meal, this.props.item.food_name || this.props.item.brand_name_item_name, res.data[0].nf_calories, res.data[0].nf_total_fat, res.data[0].nf_total_carbohydrate, res.data[0].nf_protein)
+      })
+      .then(() => {
+        this.setState({ listClear: true })
+
+      })
+      .then(res => {
+        //this.props.splicer(this.props.iterator)
+      })
+      .catch((err) => {
+        console.log(err)
+        console.log('here in error')
+      })
       .then((res) => {
         this.props.addFood(this.props.iterator, this.props.meal, this.props.item.food_name || this.props.item.brand_name_item_name, res.data[0].nf_calories, res.data[0].nf_total_fat, res.data[0].nf_total_carbohydrate, res.data[0].nf_protein);
       })

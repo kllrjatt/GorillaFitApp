@@ -4,16 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "curl -s https://raw.githubusercontent.com/reactorcore/pomander/master/bin/install | bash",
     "react-dev": "webpack -d --watch",
     "server-dev": "nodemon server/index.js",
     "test": "jest",
     "build": "webpack -p",
-<<<<<<< HEAD
-    "heroku-postbuild" : "npm run build"
-=======
     "heroku-postbuild": "npm run build"
->>>>>>> 2bb2c08ad27e49096ff7055b9681d68ba22899f1
   },
   "author": "Gunpreet, Jake, Karel, and Nick",
   "license": "MIT",

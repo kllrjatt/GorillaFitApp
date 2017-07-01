@@ -52,22 +52,6 @@ class App extends React.Component {
     this.addFood = this.addFood.bind(this);
   }
 
-//   addFood (i, meal, foodToAdd, caloriesToAdd, fatToAdd, carbsToAdd, proteinToAdd) {
-// =======
-//       fat: 0,
-//       carbs: 0,
-//       protein: 0,
-//       //Below are dummy data for exercises and calorie output
-//       exercises: [
-//         'rowing',
-//         'fencing'
-//       ],
-//       calorieOutput: 560
-
-
-//     };
-//     this.addFood = this.addFood.bind(this);
-//   }
 
   addFood(i, meal, foodToAdd, caloriesToAdd, fatToAdd, carbsToAdd, proteinToAdd) {
 
@@ -105,61 +89,61 @@ class App extends React.Component {
   }
 
   setUsername(username) {
-    this.setState({'username': username});
+    this.setState({ 'username': username });
   }
 
-  onBack(e) { 
+  onBack(e) {
     e.preventDefault();
     let oneDayBack = new Date().setDate(new Date(this.state.date).getDate() - 1);
-    this.setState({date: oneDayBack});
+    this.setState({ date: oneDayBack });
     axios.get('/userfoods', {
       params: {
         username: JSON.stringify(this.state.username),
         date: JSON.stringify(oneDayBack)
       }
     })
-    .then((res) => {
-      //do something with the data
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then((res) => {
+        //do something with the data
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   onForward(e) {
     console.log('this date ', this.state.date);
     e.preventDefault();
     let oneDayForward = new Date().setDate(new Date(this.state.date).getDate() + 1);
-    this.setState({date: oneDayForward});
+    this.setState({ date: oneDayForward });
     axios.get('/userfoods', {
       params: {
         username: JSON.stringify(this.state.username),
         date: JSON.stringify(oneDayForward)
       }
     })
-    .then((res) => {
-      //do something with the data
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then((res) => {
+        //do something with the data
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   render() {
     return (
-    <div>
-      {this.state.username ? <ForwardButton onForward={this.onForward.bind(this)}/> : ''}
-      {this.state.username ? <BackButton onBack={this.onBack.bind(this)}/> : ''}
-      {this.state.username ? '' : <SignUp setUsername={this.setUsername.bind(this)}/>}
-      <Search addFood={this.addFood} username={this.state.username}/>
-      <Items breakfast={this.state.items.breakfast} lunch={this.state.items.lunch} dinner={this.state.items.dinner} snack={this.state.items.snack} />
-      <Calories totalCalories={this.state.totalCalories} />
-      <Nutrients fat={this.state.fat} carbs={this.state.carbs} protein={this.state.protein} />
-      <hr/>
-      <SearchExercise addExercise={this.addExercise.bind(this)}/>
-      <Exercises exercises={this.state.exercises}/>
-      <CalorieOutput calorieOutput={this.state.calorieOutput}/>
-    </div >);
+      <div>
+        {this.state.username ? <ForwardButton onForward={this.onForward.bind(this)} /> : ''}
+        {this.state.username ? <BackButton onBack={this.onBack.bind(this)} /> : ''}
+        {this.state.username ? '' : <SignUp setUsername={this.setUsername.bind(this)} />}
+        <Search addFood={this.addFood} username={this.state.username} />
+        <Items breakfast={this.state.items.breakfast} lunch={this.state.items.lunch} dinner={this.state.items.dinner} snack={this.state.items.snack} />
+        <Calories totalCalories={this.state.totalCalories} />
+        <Nutrients fat={this.state.fat} carbs={this.state.carbs} protein={this.state.protein} />
+        <hr />
+        <SearchExercise addExercise={this.addExercise.bind(this)} />
+        <Exercises exercises={this.state.exercises} />
+        <CalorieOutput calorieOutput={this.state.calorieOutput} />
+      </div >);
   }
 }
 
