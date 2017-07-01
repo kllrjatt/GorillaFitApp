@@ -23,7 +23,7 @@ app.use(flash());
 
 
 app.use(express.static(__dirname + '/../client/dist'));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 var xAppKey = '76473ef11688b7d9665a46e225cfecad';
 var xAppId = '1a7a76a9';
@@ -41,14 +41,14 @@ app.get('/test', function (req, res) {
     //   }
     // },
     sort: {
-      "field": "_score",
-      "order": "desc"
+      'field': '_score',
+      'order': 'desc'
     },
     min_score: 0.5,
     fields: [
-      "item_name",
-      "nf_calories",
-      "serving_qty"
+      'item_name',
+      'nf_calories',
+      'serving_qty'
 
     ],
     limit: 20,
@@ -60,32 +60,32 @@ app.get('/test', function (req, res) {
   };
   request(options, function (error, response, body) {
     if (error) {
-      console.log('here in error')
+      console.log('here in error');
       throw new Error(error);
     } else {
-      res.status(200)
-      var commonFoods = JSON.parse(body).common.slice(0, 5)
-      var branded = JSON.parse(body).branded.slice(0, 5)
-      var foodMatches = commonFoods.concat(branded)
+      res.status(200);
+      var commonFoods = JSON.parse(body).common.slice(0, 5);
+      var branded = JSON.parse(body).branded.slice(0, 5);
+      var foodMatches = commonFoods.concat(branded);
       //console.log(foodMatches)
       res.send(foodMatches);
       res.status(200);
       res.end();
     }
-  })
-})
+  });
+});
 
 app.post('/food', function (req, res) {
   db.insertFoodAndDataForUserAsync(req.query.username, req.query.food.food_name, req.query.date)
     .then((result) => {
       res.send(201);
-      res.send('data inserted successfully')
+      res.send('data inserted successfully');
       res.end();
     })
     .catch((err) => {
-      res.end('there was an error')
-    })
-})
+      res.end('there was an error');
+    });
+});
 
 
 app.get('/userfood', function (req, res) {
@@ -95,7 +95,7 @@ app.get('/userfood', function (req, res) {
       res.send(foodHistory);
       res.end();
     });
-})
+});
 
 
 
@@ -128,8 +128,8 @@ app.post('/signup', (req, res) => {
 
 app.post('/foods', (req, res) => {
   console.log('this is the request body! ', req.body);
-  res.status(201)
-  res.end()
+  res.status(201);
+  res.end();
 });
 
 passport.use(new LocalStrategy(
@@ -167,7 +167,7 @@ app.post('/login', passport.authenticate('local'),
   ((req, res) => {
     res.status(201);
     res.json(req.user[0].history);
-    console.log('this is the history we get from a user ', req.user[0].history)
+    console.log('this is the history we get from a user ', req.user[0].history);
     res.end();
   })
 );
@@ -208,7 +208,7 @@ app.post('/login', passport.authenticate('local'),
 
 
 app.get('/foods', function (req, res) {
-  console.log('reqquery is', req.query)
+  console.log('reqquery is', req.query);
   var options = {
     method: 'POST',
     url: 'https://trackapi.nutritionix.com/v2/natural/nutrients',
@@ -227,12 +227,12 @@ app.get('/foods', function (req, res) {
 
   request(options, function (error, response, body) {
     if (error) {
-      console.log('here in error')
+      console.log('here in error');
       throw new Error(error);
     } else {
-      res.status(200)
-      console.log('this is the body', body)
-      res.send(body.foods)
+      res.status(200);
+      console.log('this is the body', body);
+      res.send(body.foods);
       res.end();
 
     }
@@ -240,8 +240,8 @@ app.get('/foods', function (req, res) {
   });
 });
 
-  // res.send('<>hello from server/index.js<>');
-});
+// res.send('<>hello from server/index.js<>');
+// });
 
 
 
@@ -272,7 +272,7 @@ app.get('/exercise', function (req, res) {
 });
 
 app.get('/userfoods', function (req, res) {
-  console.log('this is the req.url ', req.query)
+  console.log('this is the req.url ', req.query);
 });
 
 app.get('/foods', function (req, res) {
