@@ -24,22 +24,22 @@ class SearchExercise extends React.Component {
         userExercise: this.state.query
       }
     })
-      .then(res => {
-        console.log('fetch successful!', res.data);
-        context.props.addExercise(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    .then(res => {
+      console.log('fetch successful!', res.data);
+      context.props.addExercise(res.data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
   }
 
   render() {
     return (
       <div>
         <form>
-          Enter Your Exercise:
-          <input type="text" value={this.state.query} onChange={this.handleChange.bind(this)} />
-          <input type="submit" onClick={this.handleClick.bind(this)} />
+          Enter Your Exercise: 
+          <input type="text" value={this.state.query} onChange={this.handleChange.bind(this)}/>
+          <input type="submit" onClick={this.handleClick.bind(this)}/> 
         </form>
       </div>
     );
